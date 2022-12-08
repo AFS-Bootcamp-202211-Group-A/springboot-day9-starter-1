@@ -42,38 +42,39 @@ public class CompanyRepository {
                 .collect(Collectors.toList());
     }
 
-    public Company findById(Integer id) {
+    public Company findById(String id) {
         return companies.stream()
                 .filter(company -> company.getId().equals(id))
                 .findFirst()
                 .orElseThrow(NoCompanyFoundException::new);
     }
 
-    public void delete(Integer id) {
+    public void delete(String id) {
         Company existingCompany = findById(id);
         companies.remove(existingCompany);
     }
 
-    public List<Employee> getEmployees(Integer id) {
+    public List<Employee> getEmployees(String id) {
         return findById(id).getEmployees();
     }
 
     public Company create(Company company) {
-        Integer nextId = generateNextId();
+        String nextId = generateNextId();
         company.setId(nextId);
         companies.add(company);
         return company;
     }
 
-    private Integer generateNextId() {
+    private String generateNextId() {
         int maxId = companies.stream()
-                .mapToInt(Company::getId)
+                .mapToInt(company -> Integer.valueOf(company.getId()))
                 .max()
                 .orElse(1);
-        return maxId + 1;
+        return String.valueOf(maxId + 1);
     }
 
-    public Company update(Integer id, Company company) {
+
+    public Company update(String id, Company company) {
         Company existingCompany = findById(id);
         if (company.getName() != null) {
             existingCompany.setName(company.getName());
