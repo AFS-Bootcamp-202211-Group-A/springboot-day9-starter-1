@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public interface EmployeeMongoRepository extends MongoRepository<Employee, String> {
-    @Query("{'gender' : ?0}")
+//    @Query("{'gender' : ?0}") <- turns out don't need this is ok too
     List<Employee> findByGender(String gender);
 
     @Aggregation(pipeline = {
