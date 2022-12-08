@@ -82,12 +82,14 @@ public class CompanyServiceTest {
 
         String id = "1";
         given(companyMongoRepository.findById(id)).willReturn(Optional.of(originalCompany));
+        given(companyMongoRepository.save(originalCompany)).willReturn(toUpdateCompany);
 
         //when
         Company actualCompany = companyService.update(id, toUpdateCompany);
 
         //then
         verify(companyMongoRepository).findById(id);
+        verify(companyMongoRepository).save(originalCompany);
         assertThat(actualCompany.getName(), equalTo(companyName));
     }
 
