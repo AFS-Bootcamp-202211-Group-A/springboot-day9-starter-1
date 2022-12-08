@@ -56,7 +56,7 @@ public class EmployeeServiceTest {
     @Test
     void should_update_only_age_and_salary_when_update_all_given_employees() {
         //given
-        int employeeId = 1;
+        String employeeId = "1";
         Employee employee = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 10000);
         Employee toUpdateEmployee = new Employee(new ObjectId().toString(), "Tom", 23, "Male", 12000);
 
@@ -130,7 +130,7 @@ public class EmployeeServiceTest {
     @Test
     void should_call_delete_with_specific_id_when_delete_given_an_id() {
         // given
-        Integer employeeId = 1;
+        String employeeId = "1";
 
         // when
         employeeService.delete(employeeId);

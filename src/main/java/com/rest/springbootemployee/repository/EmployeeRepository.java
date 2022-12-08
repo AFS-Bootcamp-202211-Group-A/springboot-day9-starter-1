@@ -24,7 +24,7 @@ public class EmployeeRepository {
         return employees;
     }
 
-    public Employee findById(Integer id) {
+    public Employee findById(String id) {
         return employees.stream()
                 .filter(employee -> ((Integer) Integer.parseInt(employee.getId())).equals(id))
                 .findFirst()
@@ -55,7 +55,7 @@ public class EmployeeRepository {
 
 //    requirement: update age and salary
 
-    public void delete(Integer id) {
+    public void delete(String id) {
         Employee existingEmployee = findById(id);
         employees.remove(existingEmployee);
     }

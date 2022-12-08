@@ -32,7 +32,7 @@ public class EmployeeService {// SUT
         // when EmployeeService.update is called, it will call employeeRepository.findById(id)
     // 2. verify data
         // when input an employee, only the age and salary will be changed, name and gender will not change.
-    public Employee update(Integer id, Employee employee) {
+    public Employee update(String id, Employee employee) {
         Employee existingEmployee = employeeRepository.findById(id);
         if (employee.getAge() != null) {
             existingEmployee.setAge(employee.getAge());
@@ -59,8 +59,8 @@ public class EmployeeService {// SUT
         return employeeRepository.findByPage(page, pageSize);
     }
 
-    public void delete(Integer id) {
-        employeeRepository.delete(id);
+    public void delete(String id) {
+        employeeMongoRepository.deleteById(id);
     }
 
     public Employee create(Employee employee) {
