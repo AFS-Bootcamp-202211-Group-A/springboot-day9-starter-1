@@ -1,5 +1,6 @@
 package com.rest.springbootemployee.Service;
 
+import com.rest.springbootemployee.Exceptions.NoEmployeeFoundException;
 import com.rest.springbootemployee.Models.Employee;
 import com.rest.springbootemployee.Repository.EmployeeMongoRepository;
 import com.rest.springbootemployee.Repository.EmployeeRepository;
@@ -35,7 +36,7 @@ public class EmployeeService {// SUT
 
 
     public Employee findById(String id) {
-        return employeeMongoRepository.findById(id).get();
+        return employeeMongoRepository.findById(id).orElseThrow(NoEmployeeFoundException::new);
     }
 
     public List<Employee> findByGender(String gender) {

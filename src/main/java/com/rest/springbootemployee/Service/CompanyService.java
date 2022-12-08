@@ -39,9 +39,7 @@ public class CompanyService {
     }
 
     public Company update(String companyId, Company toUpdateCompany) {
-        Company existingCompany = companyMongoRepository
-                .findById(companyId)
-                .orElseThrow(NoCompanyFoundException::new);
+        Company existingCompany = this.findById(companyId);
         if (toUpdateCompany.getName() != null) {
             existingCompany.setName(toUpdateCompany.getName());
         }
