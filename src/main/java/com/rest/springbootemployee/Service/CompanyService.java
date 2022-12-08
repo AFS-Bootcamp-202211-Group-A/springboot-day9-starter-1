@@ -5,6 +5,7 @@ import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Repository.CompanyMongoRepository;
 import com.rest.springbootemployee.Repository.CompanyRepository;
 import com.rest.springbootemployee.Models.Employee;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class CompanyService {
     }
 
     public List<Company> findByPage(Integer page, Integer pageSize) {
-        return companyRepository.findByPage(page, pageSize);
+        PageRequest pageable = PageRequest.of(page-1, pageSize);
+        return companyMongoRepository.findAll(pageable).toList();
     }
 
     public Company findById(String companyId) {
