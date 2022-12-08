@@ -2,6 +2,7 @@ package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.repository.CompanyMongoRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.service.CompanyService;
 import org.bson.types.ObjectId;
@@ -26,6 +27,9 @@ public class CompanyServiceTest {
     @Mock
     CompanyRepository companyRepository;
 
+    @Mock
+    CompanyMongoRepository companyMongoRepository;
+
     @InjectMocks
     CompanyService companyService;
 
@@ -45,7 +49,7 @@ public class CompanyServiceTest {
 
         List<Company> companies = new ArrayList<>(Arrays.asList(company1,company2));
 
-        given(companyRepository.findAll()).willReturn(companies);
+        given(companyMongoRepository.findAll()).willReturn(companies);
 
         //when
         List<Company> actualCompanies = companyService.findAll();
@@ -54,6 +58,8 @@ public class CompanyServiceTest {
         assertThat(actualCompanies, hasSize(2));
         assertThat(actualCompanies.get(0), equalTo(company1));
         assertThat(actualCompanies.get(1), equalTo(company2));
+
+        verify(companyMongoRepository).findAll();
     }
 
     @Test
