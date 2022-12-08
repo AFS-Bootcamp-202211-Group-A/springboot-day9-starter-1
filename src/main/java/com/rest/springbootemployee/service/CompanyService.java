@@ -49,7 +49,7 @@ public class CompanyService {
     }
 
     public List<Employee> getEmployees(String companyId) {
-        Company company = companyRepository.findById(companyId);
+        Company company = this.findById(companyId);
         return company.getEmployees();
     }
 
