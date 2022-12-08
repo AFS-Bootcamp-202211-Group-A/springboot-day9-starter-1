@@ -31,7 +31,7 @@ public class CompanyService {
     }
 
     public Company create(Company company) {
-        return companyRepository.create(company);
+        return companyMongoRepository.save(company);
     }
 
     public void delete(String companyId) {
