@@ -4,6 +4,8 @@ import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.repository.CompanyMongoRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.entity.Employee;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +25,8 @@ public class CompanyService {
     }
 
     public List<Company> findByPage(Integer page, Integer pageSize) {
-        return companyRepository.findByPage(page, pageSize);
+        Pageable pageable = PageRequest.of(page.intValue() - 1, pageSize.intValue());
+        return companyMongoRepository.findAll(pageable).toList();
     }
 
     public Company findById(String companyId) {
