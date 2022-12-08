@@ -3,7 +3,9 @@ package com.rest.springbootemployee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.repository.CompanyMongoRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
+import com.rest.springbootemployee.repository.EmployeeMongoRepository;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,8 @@ public class CompanyControllerTest {
 
     @Autowired
     CompanyRepository companyRepository;
+    @Autowired
+    CompanyMongoRepository companyMongoRepository;
 
     @BeforeEach
     public void clearDB() {
@@ -124,8 +128,8 @@ public class CompanyControllerTest {
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(new Employee(new ObjectId().toString(), "aaa", 20, "Male", 2000));
         employees2.add(new Employee(new ObjectId().toString(), "bbb", 10, "Male", 8000));
-        Company company1 = companyRepository.create(new Company("Spring", employees1));
-        Company company2 = companyRepository.create(new Company("Boot", employees2));
+        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
+        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
 
         String newCompanyJson = new ObjectMapper().writeValueAsString(new Company("TETE", null));
 
