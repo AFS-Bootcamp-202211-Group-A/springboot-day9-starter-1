@@ -44,11 +44,8 @@ public class EmployeeService {// SUT
     }
 
     public Employee findById(String id) {
-        Optional<Employee> employee = employeeMongoRepository.findById(id);
-        if (employee.isPresent()) {
-            return employee.get();
-        }
-        throw new NoEmployeeFoundException();
+        return employeeMongoRepository.findById(id)
+                .orElseThrow(NoEmployeeFoundException::new);
     }
 
     public List<Employee> findByGender(String gender) {
