@@ -145,13 +145,13 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
         Employee createdEmployee = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
 
-        given(employeeMongoRepository.insert(employee)).willReturn(createdEmployee);
+        given(employeeMongoRepository.save(employee)).willReturn(createdEmployee);
 
         // when
         Employee result = employeeService.create(employee);
 
         // should
-        verify(employeeMongoRepository).insert(employee);
+        verify(employeeMongoRepository).save(employee);
         assertThat(result, equalTo(createdEmployee));
     }
 }
