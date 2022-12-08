@@ -12,13 +12,10 @@ public class Company {
     private String id;
     private String name;
     private List<Employee> employees;
-
-    public Company(String id, String name, List<Employee> employees) {
-        this.id = id;
+    public Company(String name, List<Employee> employees) {
         this.name = name;
         this.employees = employees;
     }
-
     public String getId() {
         return id;
     }

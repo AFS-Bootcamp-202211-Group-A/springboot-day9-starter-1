@@ -18,17 +18,17 @@ public class CompanyRepository {
         ArrayList<Employee> employeesOfCompany1 = new ArrayList<>();
         employeesOfCompany1.add(new Employee(new ObjectId().toString(), "Carlos", 26, "Male", 70000));
         employeesOfCompany1.add(new Employee(new ObjectId().toString(), "Nicole", 22, "Female", 80000));
-        companies.add(new Company(new ObjectId().toString(), "spring", employeesOfCompany1));
+        companies.add(new Company("spring", employeesOfCompany1));
 
         ArrayList<Employee> employeesOfCompany2 = new ArrayList<>();
         employeesOfCompany2.add(new Employee(new ObjectId().toString(), "Alice", 21, "Female", 90000));
         employeesOfCompany2.add(new Employee(new ObjectId().toString(), "Bob", 20, "Male", 80000));
-        companies.add(new Company(new ObjectId().toString(), "summer", employeesOfCompany2));
+        companies.add(new Company("summer", employeesOfCompany2));
 
         ArrayList<Employee> employeesOfCompany3 = new ArrayList<>();
         employeesOfCompany3.add(new Employee(new ObjectId().toString(), "Zoe", 23, "Female", 85000));
         employeesOfCompany3.add(new Employee(new ObjectId().toString(), "Thomas", 22, "Male", 83000));
-        companies.add(new Company(new ObjectId().toString(), "autumn", employeesOfCompany3));
+        companies.add(new Company("autumn", employeesOfCompany3));
     }
 
     public List<Company> findAll() {
