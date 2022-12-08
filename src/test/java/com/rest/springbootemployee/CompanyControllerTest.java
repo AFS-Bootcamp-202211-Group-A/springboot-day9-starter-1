@@ -238,4 +238,15 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", containsInAnyOrder("Female", "Female")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", containsInAnyOrder(2000, 8000)));
     }
+    @Test
+    void should_return_not_found_by_id_when_perform_get_by_wrong_id__given_company() throws Exception {
+        client.perform(MockMvcRequestBuilders.get("/companies/{id}",  "11111"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void should_return_bad_request_when_perform_put_given_company_not_exist() throws Exception {
+        client.perform(MockMvcRequestBuilders.put("/companies/{id}",  "99"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }

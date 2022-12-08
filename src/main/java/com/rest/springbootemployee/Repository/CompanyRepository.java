@@ -42,7 +42,7 @@ public class CompanyRepository {
                 .collect(Collectors.toList());
     }
 
-    public Company findById(String id) {
+    public Company findById(String id) throws NoCompanyFoundException {
         return companies.stream()
                 .filter(company -> company.getId().equals(id))
                 .findFirst()

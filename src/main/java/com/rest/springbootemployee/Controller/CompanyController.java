@@ -1,5 +1,6 @@
 package com.rest.springbootemployee.Controller;
 
+import com.rest.springbootemployee.Exceptions.NoCompanyFoundException;
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Service.CompanyService;
 import com.rest.springbootemployee.Models.Employee;
@@ -23,7 +24,7 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    public Company getById(@PathVariable String id) {
+    public Company getById(@PathVariable String id) throws NoCompanyFoundException {
         return companyService.findById(id);
     }
 
@@ -44,7 +45,7 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public Company update(@PathVariable String id, @RequestBody Company company) {
+    public Company update(@PathVariable String id, @RequestBody Company company)throws NoCompanyFoundException {
         return companyService.update(id, company);
     }
 

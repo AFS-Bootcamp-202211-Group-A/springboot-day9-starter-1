@@ -1,6 +1,7 @@
 package com.rest.springbootemployee.Service;
 
 import com.rest.springbootemployee.Exceptions.NoCompanyFoundException;
+import com.rest.springbootemployee.Exceptions.NoEmployeeFoundException;
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Repository.CompanyMongoRepository;
 import com.rest.springbootemployee.Models.Employee;
@@ -26,8 +27,8 @@ public class CompanyService {
         return companyMongoRepository.findAll(pageable).toList();
     }
 
-    public Company findById(String companyId) {
-        return companyMongoRepository.findById(companyId).get();
+    public Company findById(String companyId) throws NoCompanyFoundException {
+        return companyMongoRepository.findById(companyId).orElseThrow(NoCompanyFoundException::new);
     }
 
     public Company create(Company company) {
@@ -48,9 +49,7 @@ public class CompanyService {
     }
 
     public List<Employee> getEmployees(String companyId) {
-        Company company = companyMongoRepository
-                .findById(companyId)
-                .orElseThrow(NoCompanyFoundException::new);
+        Company company = this.findById(companyId);
         return company.getEmployees();
     }
 
