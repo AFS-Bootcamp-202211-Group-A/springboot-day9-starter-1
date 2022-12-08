@@ -82,7 +82,7 @@ public class CompanyControllerTest {
         employees2.add(new Employee("aaa", 20, "Male", 2000));
         employees2.add(new Employee("bbb", 10, "Male", 8000));
         Company company1 =  companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 =  companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Boot", employees2));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", company1.getId()))
@@ -128,7 +128,7 @@ public class CompanyControllerTest {
         employees2.add(new Employee("aaa", 20, "Male", 2000));
         employees2.add(new Employee("bbb", 10, "Male", 8000));
         Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Boot", employees2));
 
         String newCompanyJson = new ObjectMapper().writeValueAsString(new Company("TETE", null));
 
@@ -178,8 +178,8 @@ public class CompanyControllerTest {
         employees4.add(new Employee("eee", 20, "Male", 2000));
         employees4.add(new Employee("fff", 10, "Male", 8000));
 
-        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Spring", employees1));
+        companyMongoRepository.save(new Company("Boot", employees2));
         Company company3 = companyMongoRepository.save(new Company("TET", employees3));
         Company company4 = companyMongoRepository.save(new Company("POP", employees4));
 
@@ -223,10 +223,10 @@ public class CompanyControllerTest {
         employees4.add(new Employee("eee", 20, "Male", 2000));
         employees4.add(new Employee("fff", 10, "Male", 8000));
 
-        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Spring", employees1));
+        companyMongoRepository.save(new Company("Boot", employees2));
         Company company3 = companyMongoRepository.save(new Company("TET", employees3));
-        Company company4 = companyMongoRepository.save(new Company("POP", employees4));
+        companyMongoRepository.save(new Company("POP", employees4));
 
         String id = company3.getId();
 

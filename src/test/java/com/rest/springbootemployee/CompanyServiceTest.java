@@ -3,7 +3,6 @@ package com.rest.springbootemployee;
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Models.Employee;
 import com.rest.springbootemployee.Repository.CompanyMongoRepository;
-import com.rest.springbootemployee.Repository.CompanyRepository;
 import com.rest.springbootemployee.Service.CompanyService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +25,6 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class CompanyServiceTest {
-    @Mock
-    CompanyRepository companyRepository;
 
     @Mock
     CompanyMongoRepository companyMongoRepository;
@@ -149,20 +146,12 @@ public class CompanyServiceTest {
         employees2.add(new Employee("aaa", 20, "Male", 2000));
         employees2.add(new Employee("bbb", 10, "Male", 8000));
 
-        List<Employee> employees3 = new ArrayList<>();
-        employees3.add(new Employee("lili", 20, "Female", 2000));
-        employees3.add(new Employee("coco", 10, "Female", 8000));
-
-        List<Employee> employees4 = new ArrayList<>();
-        employees4.add(new Employee("aaa", 20, "Male", 2000));
-        employees4.add(new Employee("bbb", 10, "Male", 8000));
-
         Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
         Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
 
         List<Company> companies = new ArrayList<>(Arrays.asList(company1,company2));
 
-        int page = 2;
+        int page = 1;
         int pageSize = 2;
         PageRequest pageable = PageRequest.of(page-1, pageSize);
         given(companyMongoRepository.findAll(pageable)).willReturn(new PageImpl<>(companies));

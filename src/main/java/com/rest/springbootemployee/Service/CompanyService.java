@@ -3,7 +3,6 @@ package com.rest.springbootemployee.Service;
 import com.rest.springbootemployee.Exceptions.NoCompanyFoundException;
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Repository.CompanyMongoRepository;
-import com.rest.springbootemployee.Repository.CompanyRepository;
 import com.rest.springbootemployee.Models.Employee;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -12,11 +11,9 @@ import java.util.List;
 
 @Service
 public class CompanyService {
-    private CompanyRepository companyRepository;
     private CompanyMongoRepository companyMongoRepository;
 
-    public CompanyService(CompanyRepository companyRepository, CompanyMongoRepository companyMongoRepository) {
-        this.companyRepository = companyRepository;
+    public CompanyService( CompanyMongoRepository companyMongoRepository) {
         this.companyMongoRepository = companyMongoRepository;
     }
 
