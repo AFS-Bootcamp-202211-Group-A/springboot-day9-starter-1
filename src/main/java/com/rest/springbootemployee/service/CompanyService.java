@@ -5,6 +5,8 @@ import com.rest.springbootemployee.exception.NoCompanyFoundException;
 import com.rest.springbootemployee.repository.CompanyMongoRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.entity.Employee;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +27,8 @@ public class CompanyService {
     }
 
     public List<Company> findByPage(Integer page, Integer pageSize) {
-        return companyRepository.findByPage(page, pageSize);
+        Pageable pageable = PageRequest.of(page.intValue() - 1, pageSize.intValue());
+        return companyMongoRepository.findAll(pageable).toList();
     }
 
     public Company findById(String companyId) {
@@ -41,11 +44,12 @@ public class CompanyService {
     }
 
     public Company update(String companyId, Company toUpdateCompany) {
-        Company existingCompany = companyRepository.findById(companyId);
+        Company existingCompany = companyMongoRepository.findById(companyId)
+                .orElseThrow(NoCompanyFoundException::new);
         if (toUpdateCompany.getName() != null) {
             existingCompany.setName(toUpdateCompany.getName());
         }
-        return existingCompany;
+        return companyMongoRepository.save(existingCompany);
     }
 
     public List<Employee> getEmployees(String companyId) {

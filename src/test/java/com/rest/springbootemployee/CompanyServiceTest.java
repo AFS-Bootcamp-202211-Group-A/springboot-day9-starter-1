@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -79,13 +81,13 @@ public class CompanyServiceTest {
         Company toUpdateCompany = new Company(companyName, employees2);
 
         String id = "1";
-        given(companyRepository.findById(id)).willReturn(originalCompany);
+        given(companyMongoRepository.findById(id)).willReturn(Optional.of(originalCompany));
 
         //when
         Company actualCompany = companyService.update(id, toUpdateCompany);
 
         //then
-        verify(companyRepository).findById(id);
+        verify(companyMongoRepository).findById(id);
         assertThat(actualCompany.getName(), equalTo(companyName));
     }
 
@@ -159,15 +161,16 @@ public class CompanyServiceTest {
         employees4.add(new Employee(new ObjectId().toString(), "aaa", 20, "Male", 2000));
         employees4.add(new Employee(new ObjectId().toString(), "bbb", 10, "Male", 8000));
 
-        Company company1 = companyRepository.create(new Company("Spring", employees1));
-        Company company2 = companyRepository.create(new Company("Boot", employees2));
+        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
+        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
 
         List<Company> companies = new ArrayList<>(Arrays.asList(company1,company2));
 
         int page = 2;
         int pageSize = 2;
 
-        given(companyRepository.findByPage(2, 2)).willReturn(companies);
+        PageRequest pageable = PageRequest.of(page - 1, pageSize);
+        given(companyMongoRepository.findAll(pageable)).willReturn(new PageImpl<>(companies));
 
         //when
         List<Company> actualCompanies = companyService.findByPage(page, pageSize);
@@ -176,6 +179,7 @@ public class CompanyServiceTest {
         assertThat(actualCompanies, hasSize(2));
         assertThat(actualCompanies.get(0), equalTo(company1));
         assertThat(actualCompanies.get(1), equalTo(company2));
+        verify(companyMongoRepository).findAll(pageable);
     }
     @Test
     public void should_return_employees_when_find_employees_by_company_id_given_a_id(){
