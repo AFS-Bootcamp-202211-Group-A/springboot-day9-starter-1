@@ -31,9 +31,6 @@ import static org.mockito.Mockito.when;
 public class EmployeeServiceTest {
 
     @Mock
-    EmployeeRepository employeeRepository;
-
-    @Mock
     EmployeeMongoRepository employeeMongoRepository;
 
     @InjectMocks
@@ -98,9 +95,9 @@ public class EmployeeServiceTest {
     void should_return_employees_when_find_by_gender_given_employees() {
         // given
         List<Employee> employees = new ArrayList<>();
-        Employee employee1 = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
-        Employee employee2 = new Employee(new ObjectId().toString(), "Lisa", 20, "Female", 7000);
-        Employee employee3 = new Employee(new ObjectId().toString(), "Jim", 21, "Male", 7000);
+        new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
+        new Employee(new ObjectId().toString(), "Lisa", 20, "Female", 7000);
+        new Employee(new ObjectId().toString(), "Jim", 21, "Male", 7000);
 
         String gender = "Female";
         given(employeeMongoRepository.findByGender(gender)).willReturn(employees);

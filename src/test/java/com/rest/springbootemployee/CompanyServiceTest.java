@@ -27,8 +27,6 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class CompanyServiceTest {
-    @Mock
-    CompanyRepository companyRepository;
 
     @Mock
     CompanyMongoRepository companyMongoRepository;
@@ -37,7 +35,7 @@ public class CompanyServiceTest {
     CompanyService companyService;
 
     @Test
-    public void should_return_all_companies_when_find_all_given_companies(){
+    public void should_return_all_companies_when_find_all_given_companies() {
         //given
         List<Employee> employees1 = new ArrayList<>();
         employees1.add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 2000));
@@ -50,7 +48,7 @@ public class CompanyServiceTest {
         Company company1 = new Company("Spring", employees1);
         Company company2 = new Company("Boot", employees2);
 
-        List<Company> companies = new ArrayList<>(Arrays.asList(company1,company2));
+        List<Company> companies = new ArrayList<>(Arrays.asList(company1, company2));
 
         given(companyMongoRepository.findAll()).willReturn(companies);
 
@@ -66,7 +64,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void should_return_company_when_update_given_a_company(){
+    public void should_return_company_when_update_given_a_company() {
         //given
         String companyName = "POL";
         List<Employee> employees1 = new ArrayList<>();
@@ -94,7 +92,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void should_return_a_right_company_when_find_by_id_given_a_id(){
+    public void should_return_a_right_company_when_find_by_id_given_a_id() {
         // given
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 2000));
@@ -113,7 +111,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void should_return_a_company_when_add_given_a_company(){
+    public void should_return_a_company_when_add_given_a_company() {
         // given
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 2000));
@@ -132,8 +130,9 @@ public class CompanyServiceTest {
         assertThat(actualCompany, equalTo(createdCompany));
         verify(companyMongoRepository).save(originalCompany);
     }
+
     @Test
-    public void should_delete_a_company_when_delete_given_a_id(){
+    public void should_delete_a_company_when_delete_given_a_id() {
         //given
         String companyId = "1";
 
@@ -145,7 +144,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void should_return_two_right_companies_when_find_by_page_given_5_companies_and_page_2_and_page_size_2(){
+    public void should_return_two_right_companies_when_find_by_page_given_5_companies_and_page_2_and_page_size_2() {
         //given
         List<Employee> employees1 = new ArrayList<>();
         employees1.add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 2000));
@@ -166,7 +165,7 @@ public class CompanyServiceTest {
         Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
         Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
 
-        List<Company> companies = new ArrayList<>(Arrays.asList(company1,company2));
+        List<Company> companies = new ArrayList<>(Arrays.asList(company1, company2));
 
         int page = 2;
         int pageSize = 2;
@@ -183,8 +182,9 @@ public class CompanyServiceTest {
         assertThat(actualCompanies.get(1), equalTo(company2));
         verify(companyMongoRepository).findAll(pageable);
     }
+
     @Test
-    public void should_return_employees_when_find_employees_by_company_id_given_a_id(){
+    public void should_return_employees_when_find_employees_by_company_id_given_a_id() {
         //given
         Employee employee1 = new Employee(new ObjectId().toString(), "lili", 20, "Female", 2000);
         Employee employee2 = new Employee(new ObjectId().toString(), "coco", 10, "Female", 8000);

@@ -30,14 +30,10 @@ public class CompanyControllerTest {
     MockMvc client;
 
     @Autowired
-    CompanyRepository companyRepository;
-
-    @Autowired
     CompanyMongoRepository companyMongoRepository;
 
     @BeforeEach
     public void clearDB() {
-        companyRepository.clearAll();
         companyMongoRepository.deleteAll();
     }
 
@@ -83,7 +79,7 @@ public class CompanyControllerTest {
         employees2.add(new Employee(new ObjectId().toString(), "aaa", 20, "Male", 2000));
         employees2.add(new Employee(new ObjectId().toString(), "bbb", 10, "Male", 8000));
         Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Boot", employees2));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", company1.getId()))
@@ -101,13 +97,13 @@ public class CompanyControllerTest {
         //given
         String newCompanyJson = new ObjectMapper()
                 .writeValueAsString(new Company("PPP", new ArrayList<Employee>() {{
-                                    add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 8000));
-                                }}));
+                    add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 8000));
+                }}));
 
         //when & then
         client.perform(MockMvcRequestBuilders.post("/companies")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(newCompanyJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("PPP"))
@@ -130,14 +126,14 @@ public class CompanyControllerTest {
         employees2.add(new Employee(new ObjectId().toString(), "aaa", 20, "Male", 2000));
         employees2.add(new Employee(new ObjectId().toString(), "bbb", 10, "Male", 8000));
         Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Boot", employees2));
 
         String newCompanyJson = new ObjectMapper().writeValueAsString(new Company("TETE", null));
 
         //when & then
         client.perform(MockMvcRequestBuilders.put("/companies/{id}", company1.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(newCompanyJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(company1.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("TETE"))
@@ -180,8 +176,8 @@ public class CompanyControllerTest {
         employees4.add(new Employee(new ObjectId().toString(), "eee", 20, "Male", 2000));
         employees4.add(new Employee(new ObjectId().toString(), "fff", 10, "Male", 8000));
 
-        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Spring", employees1));
+        companyMongoRepository.save(new Company("Boot", employees2));
         Company company3 = companyMongoRepository.save(new Company("TET", employees3));
         Company company4 = companyMongoRepository.save(new Company("POP", employees4));
 
@@ -225,10 +221,10 @@ public class CompanyControllerTest {
         employees4.add(new Employee(new ObjectId().toString(), "eee", 20, "Male", 2000));
         employees4.add(new Employee(new ObjectId().toString(), "fff", 10, "Male", 8000));
 
-        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
-        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Spring", employees1));
+        companyMongoRepository.save(new Company("Boot", employees2));
         Company company3 = companyMongoRepository.save(new Company("TET", employees3));
-        Company company4 = companyMongoRepository.save(new Company("POP", employees4));
+        companyMongoRepository.save(new Company("POP", employees4));
 
         String id = company3.getId();
 
