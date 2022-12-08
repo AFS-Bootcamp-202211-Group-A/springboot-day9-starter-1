@@ -1,5 +1,8 @@
-package com.rest.springbootemployee;
+package com.rest.springbootemployee.Service;
 
+import com.rest.springbootemployee.Models.Company;
+import com.rest.springbootemployee.Repository.CompanyRepository;
+import com.rest.springbootemployee.Models.Employee;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
