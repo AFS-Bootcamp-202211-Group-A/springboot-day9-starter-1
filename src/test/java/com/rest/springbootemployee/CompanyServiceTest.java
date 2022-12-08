@@ -2,6 +2,7 @@ package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Models.Employee;
+import com.rest.springbootemployee.Repository.CompanyMongoRepository;
 import com.rest.springbootemployee.Repository.CompanyRepository;
 import com.rest.springbootemployee.Service.CompanyService;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ public class CompanyServiceTest {
     @Mock
     CompanyRepository companyRepository;
 
+    @Mock
+    CompanyMongoRepository companyMongoRepository;
+
     @InjectMocks
     CompanyService companyService;
 
@@ -44,7 +48,7 @@ public class CompanyServiceTest {
 
         List<Company> companies = new ArrayList<>(Arrays.asList(company1,company2));
 
-        given(companyRepository.findAll()).willReturn(companies);
+        given(companyMongoRepository.findAll()).willReturn(companies);
 
         //when
         List<Company> actualCompanies = companyService.findAll();
@@ -70,7 +74,7 @@ public class CompanyServiceTest {
         Company originalCompany = new Company("Spring", employees1);
         Company toUpdateCompany = new Company(companyName, employees2);
 
-        int id = originalCompany.getId();
+        String id = "1";
         given(companyRepository.findById(id)).willReturn(originalCompany);
 
         //when
@@ -89,12 +93,12 @@ public class CompanyServiceTest {
         employees.add(new Employee("coco", 10, "Female", 8000));
 
         Company company = new Company("Spring", employees);
-        int id = company.getId();
 
-        given(companyRepository.findById(id)).willReturn(company);
+
+        given(companyMongoRepository.findById(company.getId())).willReturn(java.util.Optional.of(company));
 
         // when
-        Company actualCompany = companyService.findById(id);
+        Company actualCompany = companyService.findById(company.getId());
 
         // then
         assertThat(actualCompany, equalTo(company));
@@ -123,7 +127,7 @@ public class CompanyServiceTest {
     @Test
     public void should_delete_a_company_when_delete_given_a_id(){
         //given
-        Integer companyId = 1;
+        String companyId = "1";
 
         //when
         companyService.delete(companyId);
@@ -177,7 +181,7 @@ public class CompanyServiceTest {
         List<Employee> employees = new ArrayList<>(Arrays.asList(employee1, employee2));
 
         Company company = new Company("Spring", employees);
-        int id = company.getId();
+        String id = "1";
 
         given(companyRepository.findById(id)).willReturn(company);
 

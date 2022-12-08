@@ -3,6 +3,7 @@ package com.rest.springbootemployee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Models.Employee;
+import com.rest.springbootemployee.Repository.CompanyMongoRepository;
 import com.rest.springbootemployee.Repository.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +31,13 @@ public class CompanyControllerTest {
     @Autowired
     CompanyRepository companyRepository;
 
+    @Autowired
+    CompanyMongoRepository companyMongoRepository;
+
     @BeforeEach
     public void clearDB() {
         companyRepository.clearAll();
+        companyMongoRepository.deleteAll();
     }
 
     @Test
@@ -45,8 +50,8 @@ public class CompanyControllerTest {
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(new Employee("aaa", 20, "Male", 2000));
         employees2.add(new Employee("bbb", 10, "Male", 8000));
-        companyRepository.create(new Company("Spring", employees1));
-        companyRepository.create(new Company("Boot", employees2));
+        companyMongoRepository.save(new Company("Spring", employees1));
+        companyMongoRepository.save(new Company("Boot", employees2));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies"))
@@ -76,13 +81,13 @@ public class CompanyControllerTest {
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(new Employee("aaa", 20, "Male", 2000));
         employees2.add(new Employee("bbb", 10, "Male", 8000));
-        Company company1 = companyRepository.create(new Company("Spring", employees1));
-        Company company2 = companyRepository.create(new Company("Boot", employees2));
+        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
+        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", company1.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Spring"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].name", containsInAnyOrder("lili", "coco")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].age", containsInAnyOrder(20, 10)))
@@ -103,7 +108,7 @@ public class CompanyControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("PPP"))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].name").value("lili"))
@@ -224,7 +229,8 @@ public class CompanyControllerTest {
         Company company3 = companyRepository.create(new Company("TET", employees3));
         Company company4 = companyRepository.create(new Company("POP", employees4));
 
-        int id = company3.getId();
+        String id = company3.getId();
+        System.out.println(id);
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", id))
