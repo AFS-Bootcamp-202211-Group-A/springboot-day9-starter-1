@@ -140,7 +140,7 @@ public class EmployeeServiceTest {
         employeeService.delete(employeeId);
 
         // should
-        verify(employeeRepository).delete(employeeId);
+        verify(employeeMongoRepository).deleteById(employeeId);
     }
 
     @Test

@@ -61,7 +61,7 @@ public class EmployeeService {// SUT
     }
 
     public void delete(String id) {
-        employeeRepository.delete(id);
+        employeeMongoRepository.deleteById(id);
     }
 
     public Employee create(Employee employee) {
