@@ -3,12 +3,12 @@ package com.rest.springbootemployee.Models;
 import java.util.List;
 
 public class Company {
+
     private Integer id;
     private String name;
     private List<Employee> employees;
 
-    public Company(Integer id, String name, List<Employee> employees) {
-        this.id = id;
+    public Company( String name, List<Employee> employees) {
         this.name = name;
         this.employees = employees;
     }
