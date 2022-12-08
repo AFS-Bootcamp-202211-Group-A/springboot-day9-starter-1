@@ -98,13 +98,13 @@ public class EmployeeServiceTest {
         Employee employee3 = new Employee(new ObjectId().toString(), "Jim", 21, "Male", 7000);
 
         String gender = "Female";
-        given(employeeRepository.findByGender(gender)).willReturn(employees);
+        given(employeeMongoRepository.findByGender(gender)).willReturn(employees);
 
         // when
         List<Employee> result = employeeService.findByGender(gender);
 
         // should
-        verify(employeeRepository).findByGender(gender);
+        verify(employeeMongoRepository).findByGender(gender);
         assertThat(result, equalTo(employees));
     }
 
@@ -145,13 +145,13 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
         Employee createdEmployee = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
 
-        given(employeeRepository.create(employee)).willReturn(createdEmployee);
+        given(employeeMongoRepository.insert(employee)).willReturn(createdEmployee);
 
         // when
         Employee result = employeeService.create(employee);
 
         // should
-        verify(employeeRepository).create(employee);
+        verify(employeeMongoRepository).insert(employee);
         assertThat(result, equalTo(createdEmployee));
     }
 }

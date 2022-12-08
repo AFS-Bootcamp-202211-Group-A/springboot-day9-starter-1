@@ -59,8 +59,8 @@ public class EmployeeControllerTest {
     @Test
     void should_get_employee_by_id_when_perform_get_by_id_given_employees() throws Exception {
         //given
-        Employee susan = employeeRepository.create(new Employee(new ObjectId().toString(), "Susan", 22, "Female", 10000));
-        employeeRepository.create(new Employee(new ObjectId().toString(), "Bob", 23, "Male", 9000));
+        Employee susan = employeeMongoRepository.insert(new Employee(new ObjectId().toString(), "Susan", 22, "Female", 10000));
+        employeeMongoRepository.insert(new Employee(new ObjectId().toString(), "Bob", 23, "Male", 9000));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/employees/{id}", Integer.parseInt(susan.getId())))
@@ -74,9 +74,9 @@ public class EmployeeControllerTest {
     @Test
     void should_return_employees_when_perform_get_by_gender_given_employees() throws Exception {
         //given
-        employeeRepository.create(new Employee(new ObjectId().toString(), "Susan", 22, "Female", 10000));
-        employeeRepository.create(new Employee(new ObjectId().toString(), "Leo", 25, "Male", 9000));
-        employeeRepository.create(new Employee(new ObjectId().toString(), "Robert", 20, "Male", 8000));
+        employeeMongoRepository.insert(new Employee(new ObjectId().toString(), "Susan", 22, "Female", 10000));
+        employeeMongoRepository.insert(new Employee(new ObjectId().toString(), "Leo", 25, "Male", 9000));
+        employeeMongoRepository.insert(new Employee(new ObjectId().toString(), "Robert", 20, "Male", 8000));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/employees?gender={gender}", "Male")) // http status 200
@@ -150,7 +150,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"));
 
         // then
-        List<Employee> employees = employeeRepository.findAll();
+        List<Employee> employees = employeeMongoRepository.findAll();
         assertThat(employees, hasSize(1));
         assertThat(employees.get(0).getName(), equalTo("Jim"));
         assertThat(employees.get(0).getAge(), equalTo(20));
