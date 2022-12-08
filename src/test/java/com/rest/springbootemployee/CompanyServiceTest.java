@@ -186,7 +186,7 @@ public class CompanyServiceTest {
         List<Employee> employees = new ArrayList<>(Arrays.asList(employee1, employee2));
 
         Company company = new Company("Spring", employees);
-        String id = "1";//company.getId();
+        String id = company.getId();
 
         given(companyMongoRepository.findById(id)).willReturn(Optional.of(company));
 
