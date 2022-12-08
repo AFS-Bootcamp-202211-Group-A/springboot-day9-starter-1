@@ -11,10 +11,9 @@ import java.util.List;
 @Service
 public class EmployeeService {// SUT
 
-    private EmployeeRepository employeeRepository; // DOC
     private EmployeeMongoRepository employeeMongoRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMongoRepository employeeMongoRepository) {
+    public EmployeeService( EmployeeMongoRepository employeeMongoRepository) {
         this.employeeMongoRepository = employeeMongoRepository;
     }
 
@@ -40,7 +39,7 @@ public class EmployeeService {// SUT
     }
 
     public List<Employee> findByGender(String gender) {
-        return employeeRepository.findByGender(gender);
+        return employeeMongoRepository.findByGender(gender);
     }
 
     public List<Employee> findByPage(int page, int pageSize) {

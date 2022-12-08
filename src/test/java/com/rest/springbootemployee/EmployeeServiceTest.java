@@ -2,7 +2,6 @@ package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.Models.Employee;
 import com.rest.springbootemployee.Repository.EmployeeMongoRepository;
-import com.rest.springbootemployee.Repository.EmployeeRepository;
 import com.rest.springbootemployee.Service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,8 +24,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class EmployeeServiceTest {
 
-    @Mock
-    EmployeeRepository employeeRepository;
 
     @Mock
     EmployeeMongoRepository employeeMongoRepository;
@@ -98,13 +95,13 @@ public class EmployeeServiceTest {
         Employee employee3 = new Employee("Jim", 21, "Male", 7000);
 
         String gender = "Female";
-        given(employeeRepository.findByGender(gender)).willReturn(employees);
+        given(employeeMongoRepository.findByGender(gender)).willReturn(employees);
 
         // when
         List<Employee> result = employeeService.findByGender(gender);
 
         // should
-        verify(employeeRepository).findByGender(gender);
+        verify(employeeMongoRepository).findByGender(gender);
         assertThat(result, equalTo(employees));
     }
 

@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface EmployeeMongoRepository extends MongoRepository<Employee, String> {
 
-
+    List<Employee> findByGender(String gender);
 }
