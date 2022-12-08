@@ -81,13 +81,13 @@ public class CompanyControllerTest {
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(new Employee("aaa", 20, "Male", 2000));
         employees2.add(new Employee("bbb", 10, "Male", 8000));
-        Company company1 = companyRepository.create(new Company("Spring", employees1));
-        Company company2 = companyRepository.create(new Company("Boot", employees2));
+        Company company1 =  companyMongoRepository.save(new Company("Spring", employees1));
+        Company company2 =  companyMongoRepository.save(new Company("Boot", employees2));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", company1.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Spring"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].name", containsInAnyOrder("lili", "coco")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].age", containsInAnyOrder(20, 10)))
@@ -108,9 +108,8 @@ public class CompanyControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("PPP"))
-                .andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].name").value("lili"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].age").value(20))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].gender").value("Female"))

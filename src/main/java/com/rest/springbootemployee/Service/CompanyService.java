@@ -19,7 +19,7 @@ public class CompanyService {
     }
 
     public List<Company> findAll() {
-        return companyRepository.findAll();
+        return companyMongoRepository.findAll();
     }
 
     public List<Company> findByPage(Integer page, Integer pageSize) {
@@ -27,11 +27,11 @@ public class CompanyService {
     }
 
     public Company findById(String companyId) {
-        return companyRepository.findById(companyId);
+        return companyMongoRepository.findById(companyId).get();
     }
 
     public Company create(Company company) {
-        return companyRepository.create(company);
+        return companyMongoRepository.save(company);
     }
 
     public void delete(String companyId) {
