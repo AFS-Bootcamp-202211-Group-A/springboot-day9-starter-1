@@ -1,5 +1,6 @@
 package com.rest.springbootemployee;
 
+import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.EmployeeMongoRepository;
 import com.rest.springbootemployee.service.EmployeeService;
@@ -8,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -112,14 +115,14 @@ public class EmployeeServiceTest {
 
         int page = 1;
         int pageSize = 2;
-        int skipTo = (page - 1) * pageSize;
-        given(employeeMongoRepository.findByPage(skipTo, 2)).willReturn(employees);
+        final PageRequest pageRequest = PageRequest.of(page-1, pageSize);
+        given(employeeMongoRepository.findAll(pageRequest)).willReturn(new PageImpl<>(employees));
 
         // when
         List<Employee> result = employeeService.findByPage(page, pageSize);
 
         // should
-        verify(employeeMongoRepository).findByPage(skipTo, pageSize);
+        verify(employeeMongoRepository).findAll(pageRequest);
         assertThat(result, equalTo(employees));
     }
 

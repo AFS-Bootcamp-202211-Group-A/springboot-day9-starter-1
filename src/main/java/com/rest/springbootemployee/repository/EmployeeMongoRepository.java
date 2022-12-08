@@ -10,10 +10,4 @@ import java.util.List;
 @Repository
 public interface EmployeeMongoRepository extends MongoRepository<Employee, String> {
     List<Employee> findByGender(String gender);
-
-    @Aggregation(pipeline = {
-            "{ '$skip' : ?0 }",
-            "{ '$limit' : ?1 }"
-    })
-    List<Employee> findByPage(int skipTo, int pageSize);
 }
