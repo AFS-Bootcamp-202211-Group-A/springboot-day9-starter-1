@@ -5,7 +5,6 @@ public class ErrorResponse {
     private String message;
 
     public ErrorResponse(int code, String message) {
-
         this.code = code;
         this.message = message;
     }
