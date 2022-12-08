@@ -43,7 +43,6 @@ public class EmployeeControllerTest {
     @Test
     void should_get_all_employees_when_perform_get_given_employees() throws Exception {
         //given
-//        employeeRepository.create(new Employee(new ObjectId().toString(), "Susan", 22, "Female", 10000));
         employeeMongoRepository.save(new Employee(new ObjectId().toString(), "Susan", 22, "Female", 10000));
 
         //when & then
@@ -64,7 +63,6 @@ public class EmployeeControllerTest {
         employeeRepository.create(new Employee(new ObjectId().toString(), "Bob", 23, "Male", 9000));
 
         //when & then
-        //        return id;
         client.perform(MockMvcRequestBuilders.get("/employees/{id}", Integer.parseInt(susan.getId())))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Susan"))

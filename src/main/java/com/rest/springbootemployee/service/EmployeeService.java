@@ -23,7 +23,6 @@ public class EmployeeService {// SUT
     // 2. verify data
         // return the data get from employeeRepository.findAll() without any change.
     public List<Employee> findAll() {
-//        return employeeRepository.findAll();
         return employeeMongoRepository.findAll();
     }
 

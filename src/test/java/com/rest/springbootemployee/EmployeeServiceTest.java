@@ -50,7 +50,6 @@ public class EmployeeServiceTest {
         assertThat(result, hasSize(1));
         assertThat(result.get(0), equalTo(employee));
         verify(employeeMongoRepository).findAll();
-
     }
 
     @Test
