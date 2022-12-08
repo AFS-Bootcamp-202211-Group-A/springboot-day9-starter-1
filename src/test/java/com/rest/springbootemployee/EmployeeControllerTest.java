@@ -60,8 +60,8 @@ public class EmployeeControllerTest {
     @Test
     void should_get_employee_by_id_when_perform_get_by_id_given_employees() throws Exception {
         //given
-        Employee susan = employeeRepository.create(new Employee("Susan", 22, "Female", 10000));
-        employeeRepository.create(new Employee("Bob", 23, "Male", 9000));
+        Employee susan = employeeMongoRepository.save(new Employee("Susan", 22, "Female", 10000));
+        employeeMongoRepository.save(new Employee("Bob", 23, "Male", 9000));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/employees/{id}", susan.getId()))
@@ -109,7 +109,7 @@ public class EmployeeControllerTest {
     @Test
     void should_return_updated_employee_when_perform_put_given_employee() throws Exception {
         //given
-        Employee employee = employeeRepository.create(new Employee("Susan", 22, "Female", 10000));
+        Employee employee = employeeMongoRepository.save(new Employee("Susan", 22, "Female", 10000));
         Employee updateEmployee = new Employee("Jim", 20, "Male", 55000);
 
         String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
@@ -125,7 +125,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"));
 
         // then
-        final Employee updatedEmployee = employeeRepository.findAll().get(0);
+        final Employee updatedEmployee = employeeMongoRepository.findAll().get(0);
         assertThat(updatedEmployee.getName(), equalTo("Susan"));
         assertThat(updatedEmployee.getAge(), equalTo(20));
         assertThat(updatedEmployee.getSalary(), equalTo(55000));

@@ -59,13 +59,13 @@ public class EmployeeServiceTest {
         Employee employee = new Employee("Susan", 22, "Female", 10000);
         Employee toUpdateEmployee = new Employee("Tom", 23, "Male", 12000);
 
-        when(employeeRepository.findById(employeeId)).thenReturn(employee);
+        when(employeeMongoRepository.findById(employeeId)).thenReturn(java.util.Optional.of(employee));
 
         //when
         Employee updatedEmployee = employeeService.update(employeeId, toUpdateEmployee);
 
         //then
-        verify(employeeRepository).findById(employeeId);
+        verify(employeeMongoRepository).findById(employeeId);
         assertThat(updatedEmployee.getAge(), equalTo(23));
         assertThat(updatedEmployee.getSalary(), equalTo(12000));
         assertThat(updatedEmployee.getName(), equalTo("Susan"));
@@ -78,13 +78,13 @@ public class EmployeeServiceTest {
         // given
         String employeeId = "1";
         Employee employee = new Employee("Susan", 22, "Female", 7000);
-        given(employeeRepository.findById(employeeId)).willReturn(employee);
+        given(employeeMongoRepository.findById(employeeId)).willReturn(java.util.Optional.of(employee));
 
         // when
         Employee result = employeeService.findById(employeeId);
 
         // should
-        verify(employeeRepository).findById(employeeId);
+        verify(employeeMongoRepository).findById(employeeId);
         assertThat(result, equalTo(employee));
     }
 

@@ -31,19 +31,20 @@ public class EmployeeService {// SUT
     // 2. verify data
         // when input an employee, only the age and salary will be changed, name and gender will not change.
     public Employee update(String id, Employee employee) {
-        Employee existingEmployee = employeeRepository.findById(id);
+        Employee existingEmployee = this.findById(id);
         if (employee.getAge() != null) {
             existingEmployee.setAge(employee.getAge());
         }
         if (employee.getSalary() != null) {
             existingEmployee.setSalary(employee.getSalary());
         }
+        employeeMongoRepository.save(existingEmployee);
         return existingEmployee;
     }
 
 
     public Employee findById(String id) {
-        return employeeRepository.findById(id);
+        return employeeMongoRepository.findById(id).get();
     }
 
     public List<Employee> findByGender(String gender) {
