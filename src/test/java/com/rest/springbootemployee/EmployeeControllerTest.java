@@ -63,7 +63,7 @@ public class EmployeeControllerTest {
         employeeMongoRepository.insert(new Employee(new ObjectId().toString(), "Bob", 23, "Male", 9000));
 
         //when & then
-        client.perform(MockMvcRequestBuilders.get("/employees/{id}", Integer.parseInt(susan.getId())))
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", susan.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Susan"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(22))
