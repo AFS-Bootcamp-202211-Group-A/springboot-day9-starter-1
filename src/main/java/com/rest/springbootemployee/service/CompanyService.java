@@ -1,6 +1,7 @@
 package com.rest.springbootemployee.service;
 
 import com.rest.springbootemployee.entity.Company;
+import com.rest.springbootemployee.exception.NoCompanyFoundException;
 import com.rest.springbootemployee.repository.CompanyMongoRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.entity.Employee;
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 public class CompanyService {
     private CompanyRepository companyRepository;
+
     private CompanyMongoRepository companyMongoRepository;
 
     public CompanyService(CompanyRepository companyRepository, CompanyMongoRepository companyMongoRepository) {
@@ -19,7 +21,7 @@ public class CompanyService {
     }
 
     public List<Company> findAll() {
-        return companyMongoRepository.findAll();
+        return companyRepository.findAll();
     }
 
     public List<Company> findByPage(Integer page, Integer pageSize) {
@@ -27,15 +29,15 @@ public class CompanyService {
     }
 
     public Company findById(String companyId) {
-        return companyRepository.findById(companyId);
+        return companyMongoRepository.findById(companyId).orElseThrow(NoCompanyFoundException::new);
     }
 
     public Company create(Company company) {
-        return companyRepository.create(company);
+        return companyMongoRepository.save(company);
     }
 
     public void delete(String companyId) {
-        companyRepository.delete(companyId);
+        companyMongoRepository.deleteById(companyId);
     }
 
     public Company update(String companyId, Company toUpdateCompany) {
@@ -47,7 +49,7 @@ public class CompanyService {
     }
 
     public List<Employee> getEmployees(String companyId) {
-        Company company = companyRepository.findById(companyId);
+        Company company = companyMongoRepository.findById(companyId).orElseThrow(NoCompanyFoundException::new);
         return company.getEmployees();
     }
 
