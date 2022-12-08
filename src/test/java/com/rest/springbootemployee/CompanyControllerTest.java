@@ -3,6 +3,7 @@ package com.rest.springbootemployee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.repository.CompanyMongoRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +31,13 @@ public class CompanyControllerTest {
 
     @Autowired
     CompanyRepository companyRepository;
+    @Autowired
+    CompanyMongoRepository companyMongoRepository;
 
     @BeforeEach
     public void clearDB() {
         companyRepository.clearAll();
+        companyMongoRepository.deleteAll();
     }
 
     @Test
@@ -46,8 +50,8 @@ public class CompanyControllerTest {
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(new Employee(new ObjectId().toString(), "aaa", 20, "Male", 2000));
         employees2.add(new Employee(new ObjectId().toString(), "bbb", 10, "Male", 8000));
-        companyRepository.create(new Company(1, "Spring", employees1));
-        companyRepository.create(new Company(2, "Boot", employees2));
+        companyMongoRepository.save(new Company(new ObjectId().toString(), "Spring", employees1));
+        companyMongoRepository.save(new Company(new ObjectId().toString(), "Boot", employees2));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies"))
@@ -77,8 +81,8 @@ public class CompanyControllerTest {
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(new Employee(new ObjectId().toString(), "aaa", 20, "Male", 2000));
         employees2.add(new Employee(new ObjectId().toString(), "bbb", 10, "Male", 8000));
-        Company company1 = companyRepository.create(new Company(1, "Spring", employees1));
-        Company company2 = companyRepository.create(new Company(2, "Boot", employees2));
+        Company company1 = companyRepository.create(new Company(new ObjectId().toString(), "Spring", employees1));
+        Company company2 = companyRepository.create(new Company(new ObjectId().toString(), "Boot", employees2));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", company1.getId()))
@@ -95,7 +99,7 @@ public class CompanyControllerTest {
     public void should_create_a_company_when_perform_post_given_a_company() throws Exception {
         //given
         String newCompanyJson = new ObjectMapper()
-                .writeValueAsString(new Company(2, "PPP", new ArrayList<Employee>() {{
+                .writeValueAsString(new Company(new ObjectId().toString(), "PPP", new ArrayList<Employee>() {{
                     add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 8000));
                 }}));
 
@@ -124,10 +128,11 @@ public class CompanyControllerTest {
         List<Employee> employees2 = new ArrayList<>();
         employees2.add(new Employee(new ObjectId().toString(), "aaa", 20, "Male", 2000));
         employees2.add(new Employee(new ObjectId().toString(), "bbb", 10, "Male", 8000));
-        Company company1 = companyRepository.create(new Company(1, "Spring", employees1));
-        Company company2 = companyRepository.create(new Company(2, "Boot", employees2));
+        String company1Id = new ObjectId().toString();
+        Company company1 = companyRepository.create(new Company(company1Id, "Spring", employees1));
+        Company company2 = companyRepository.create(new Company(new ObjectId().toString(), "Boot", employees2));
 
-        String newCompanyJson = new ObjectMapper().writeValueAsString(new Company(1, "TETE", null));
+        String newCompanyJson = new ObjectMapper().writeValueAsString(new Company(company1Id, "TETE", null));
 
         //when & then
         client.perform(MockMvcRequestBuilders.put("/companies/{id}", company1.getId())
@@ -149,7 +154,7 @@ public class CompanyControllerTest {
         employees.add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 2000));
         employees.add(new Employee(new ObjectId().toString(), "coco", 10, "Female", 8000));
 
-        Company company = companyRepository.create(new Company(1, "Spring", employees));
+        Company company = companyRepository.create(new Company(new ObjectId().toString(), "Spring", employees));
 
         //when & then
         client.perform(MockMvcRequestBuilders.delete("/companies/{id}", company.getId()))
@@ -175,10 +180,10 @@ public class CompanyControllerTest {
         employees4.add(new Employee(new ObjectId().toString(), "eee", 20, "Male", 2000));
         employees4.add(new Employee(new ObjectId().toString(), "fff", 10, "Male", 8000));
 
-        Company company1 = companyRepository.create(new Company(1, "Spring", employees1));
-        Company company2 = companyRepository.create(new Company(2, "Boot", employees2));
-        Company company3 = companyRepository.create(new Company(3, "TET", employees3));
-        Company company4 = companyRepository.create(new Company(4, "POP", employees4));
+        Company company1 = companyRepository.create(new Company(new ObjectId().toString(), "Spring", employees1));
+        Company company2 = companyRepository.create(new Company(new ObjectId().toString(), "Boot", employees2));
+        Company company3 = companyRepository.create(new Company(new ObjectId().toString(), "TET", employees3));
+        Company company4 = companyRepository.create(new Company(new ObjectId().toString(), "POP", employees4));
 
         int page = 2;
         int pageSize = 2;
@@ -220,12 +225,12 @@ public class CompanyControllerTest {
         employees4.add(new Employee(new ObjectId().toString(), "eee", 20, "Male", 2000));
         employees4.add(new Employee(new ObjectId().toString(), "fff", 10, "Male", 8000));
 
-        Company company1 = companyRepository.create(new Company(1, "Spring", employees1));
-        Company company2 = companyRepository.create(new Company(2, "Boot", employees2));
-        Company company3 = companyRepository.create(new Company(3, "TET", employees3));
-        Company company4 = companyRepository.create(new Company(4, "POP", employees4));
+        Company company1 = companyRepository.create(new Company(new ObjectId().toString(), "Spring", employees1));
+        Company company2 = companyRepository.create(new Company(new ObjectId().toString(), "Boot", employees2));
+        Company company3 = companyRepository.create(new Company(new ObjectId().toString(), "TET", employees3));
+        Company company4 = companyRepository.create(new Company(new ObjectId().toString(), "POP", employees4));
 
-        int id = company3.getId();
+        String id = company3.getId();
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", id))
