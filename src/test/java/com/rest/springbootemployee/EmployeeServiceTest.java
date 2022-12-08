@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -115,16 +119,20 @@ public class EmployeeServiceTest {
         List<Employee> employees = new ArrayList<>();
         Employee employee1 = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
         Employee employee2 = new Employee(new ObjectId().toString(), "Lisa", 20, "Female", 7000);
+        employees.add(employee1);
+        employees.add(employee2);
 
         int page = 1;
         int pageSize = 2;
-        given(employeeRepository.findByPage(1, 2)).willReturn(employees);
+        PageRequest pageable = PageRequest.of(page - 1, pageSize);
+        given(employeeMongoRepository.findAll(pageable)).willReturn(new PageImpl<>(employees));
+
 
         // when
         List<Employee> result = employeeService.findByPage(page, pageSize);
 
         // should
-        verify(employeeRepository).findByPage(page, pageSize);
+        verify(employeeMongoRepository).findAll(pageable);
         assertThat(result, equalTo(employees));
     }
 
