@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {// SUT
@@ -54,7 +55,7 @@ public class EmployeeService {// SUT
     }
 
     public List<Employee> findByPage(int page, int pageSize) {
-        return employeeRepository.findByPage(page, pageSize);
+        return employeeMongoRepository.findByPage((page - 1) * pageSize, pageSize);
     }
 
     public void delete(String id) {

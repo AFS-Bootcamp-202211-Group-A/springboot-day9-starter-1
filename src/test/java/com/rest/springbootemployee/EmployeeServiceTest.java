@@ -117,13 +117,14 @@ public class EmployeeServiceTest {
 
         int page = 1;
         int pageSize = 2;
-        given(employeeRepository.findByPage(1, 2)).willReturn(employees);
+        int skipTo = (page - 1) * pageSize;
+        given(employeeMongoRepository.findByPage(skipTo, 2)).willReturn(employees);
 
         // when
         List<Employee> result = employeeService.findByPage(page, pageSize);
 
         // should
-        verify(employeeRepository).findByPage(page, pageSize);
+        verify(employeeMongoRepository).findByPage(skipTo, pageSize);
         assertThat(result, equalTo(employees));
     }
 
