@@ -1,11 +1,13 @@
 package com.rest.springbootemployee.service;
 
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.exception.NoEmployeeFoundException;
 import com.rest.springbootemployee.repository.EmployeeMongoRepository;
 import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {// SUT
@@ -41,9 +43,12 @@ public class EmployeeService {// SUT
         return existingEmployee;
     }
 
-
-    public Employee findById(Integer id) {
-        return employeeRepository.findById(id);
+    public Employee findById(String id) {
+        Optional<Employee> employee = employeeMongoRepository.findById(id);
+        if (employee.isPresent()) {
+            return employee.get();
+        }
+        throw new NoEmployeeFoundException();
     }
 
     public List<Employee> findByGender(String gender) {

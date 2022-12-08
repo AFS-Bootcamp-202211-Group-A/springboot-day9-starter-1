@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -76,15 +77,15 @@ public class EmployeeServiceTest {
     @Test
     void should_return_employee_when_find_by_id_given_employee() {
         // given
-        Integer employeeId = 1;
+        String employeeId = "1";
         Employee employee = new Employee(new ObjectId().toString(), "Susan", 22, "Female", 7000);
-        given(employeeRepository.findById(employeeId)).willReturn(employee);
+        given(employeeMongoRepository.findById(employeeId)).willReturn(Optional.of(employee));
 
         // when
         Employee result = employeeService.findById(employeeId);
 
         // should
-        verify(employeeRepository).findById(employeeId);
+        verify(employeeMongoRepository).findById(employeeId);
         assertThat(result, equalTo(employee));
     }
 
