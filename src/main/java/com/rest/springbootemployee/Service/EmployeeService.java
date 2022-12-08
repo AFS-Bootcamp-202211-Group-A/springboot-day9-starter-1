@@ -22,7 +22,7 @@ public class EmployeeService {// SUT
         return employeeMongoRepository.findAll();
     }
 
-    public Employee update(String id, Employee employee) {
+    public Employee update(String id, Employee employee)  throws NoEmployeeFoundException {
         Employee existingEmployee = this.findById(id);
         if (employee.getAge() != null) {
             existingEmployee.setAge(employee.getAge());
@@ -35,7 +35,7 @@ public class EmployeeService {// SUT
     }
 
 
-    public Employee findById(String id) {
+    public Employee findById(String id) throws NoEmployeeFoundException  {
         return employeeMongoRepository.findById(id).orElseThrow(NoEmployeeFoundException::new);
     }
 

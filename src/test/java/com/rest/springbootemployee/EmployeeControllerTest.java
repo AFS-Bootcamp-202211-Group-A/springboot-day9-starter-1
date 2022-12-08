@@ -165,6 +165,17 @@ public class EmployeeControllerTest {
         //then
         assertThat(employeeMongoRepository.findAll(), empty());
     }
+    @Test
+    void should_return_not_found_when_perform_get_by_wrong_id_given_employees() throws Exception {
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", "564654"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
 
+    @Test
+    void should_return_bad_request_when_perform_put_given_not_exist_employee() throws Exception {
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", "564654"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
 
 }

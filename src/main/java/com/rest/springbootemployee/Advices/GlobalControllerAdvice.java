@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({IllegalArgumentException.class})
     public ErrorResponse handleBadRequest(IllegalArgumentException exception) {
-        return new ErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST.name());
+        return new ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND.name());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

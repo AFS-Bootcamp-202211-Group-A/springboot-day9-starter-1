@@ -1,5 +1,6 @@
 package com.rest.springbootemployee.Controller;
 
+import com.rest.springbootemployee.Exceptions.NoEmployeeFoundException;
 import com.rest.springbootemployee.Models.Employee;
 import com.rest.springbootemployee.Service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Employee getById(@PathVariable String id) {
+    public Employee getById(@PathVariable String id) throws NoEmployeeFoundException {
         return employeeService.findById(id);
     }
 
@@ -38,7 +39,7 @@ public class EmployeeController {
         return employeeService.create(employee);
     }
     @PutMapping("/{id}")
-    public Employee update(@PathVariable String id, @RequestBody Employee employee) {
+    public Employee update(@PathVariable String id, @RequestBody Employee employee)  throws NoEmployeeFoundException {
         return employeeService.update(id, employee);
     }
 
