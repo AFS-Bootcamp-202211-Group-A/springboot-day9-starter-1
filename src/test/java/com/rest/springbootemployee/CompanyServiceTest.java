@@ -2,6 +2,7 @@ package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.repository.CompanyMongoRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.service.CompanyService;
 import org.bson.types.ObjectId;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -25,6 +27,9 @@ import static org.mockito.Mockito.verify;
 public class CompanyServiceTest {
     @Mock
     CompanyRepository companyRepository;
+
+    @Mock
+    CompanyMongoRepository companyMongoRepository;
 
     @InjectMocks
     CompanyService companyService;
@@ -92,7 +97,7 @@ public class CompanyServiceTest {
         Company company = new Company("Spring", employees);
         String id = "1";
 
-        given(companyRepository.findById(id)).willReturn(company);
+        given(companyMongoRepository.findById(id)).willReturn(Optional.of(company));
 
         // when
         Company actualCompany = companyService.findById(id);
@@ -112,14 +117,14 @@ public class CompanyServiceTest {
 
         Company createdCompany = new Company("Spring", employees);
 
-        given(companyRepository.create(originalCompany)).willReturn(createdCompany);
+        given(companyMongoRepository.save(originalCompany)).willReturn(createdCompany);
 
         // when
         Company actualCompany = companyService.create(originalCompany);
 
         // then
         assertThat(actualCompany, equalTo(createdCompany));
-        verify(companyRepository).create(originalCompany);
+        verify(companyMongoRepository).save(originalCompany);
     }
     @Test
     public void should_delete_a_company_when_delete_given_a_id(){
