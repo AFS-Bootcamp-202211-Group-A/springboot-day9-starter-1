@@ -224,13 +224,12 @@ public class CompanyControllerTest {
         employees4.add(new Employee("eee", 20, "Male", 2000));
         employees4.add(new Employee("fff", 10, "Male", 8000));
 
-        Company company1 = companyRepository.create(new Company("Spring", employees1));
-        Company company2 = companyRepository.create(new Company("Boot", employees2));
-        Company company3 = companyRepository.create(new Company("TET", employees3));
-        Company company4 = companyRepository.create(new Company("POP", employees4));
+        Company company1 = companyMongoRepository.save(new Company("Spring", employees1));
+        Company company2 = companyMongoRepository.save(new Company("Boot", employees2));
+        Company company3 = companyMongoRepository.save(new Company("TET", employees3));
+        Company company4 = companyMongoRepository.save(new Company("POP", employees4));
 
         String id = company3.getId();
-        System.out.println(id);
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", id))
