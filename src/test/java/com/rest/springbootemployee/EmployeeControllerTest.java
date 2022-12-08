@@ -92,9 +92,9 @@ public class EmployeeControllerTest {
     @Test
     void should_return_employees_when_perform_get_by_page_given_employees() throws Exception {
         //given
-        employeeRepository.create(new Employee("Susan", 22, "Female", 10000));
-        employeeRepository.create(new Employee("Leo", 25, "Male", 9000));
-        employeeRepository.create(new Employee("Robert", 20, "Male", 8000));
+        employeeMongoRepository.save(new Employee("Susan", 22, "Female", 10000));
+        employeeMongoRepository.save(new Employee("Leo", 25, "Male", 9000));
+        employeeMongoRepository.save(new Employee("Robert", 20, "Male", 8000));
 
         //when & then
         client.perform(MockMvcRequestBuilders.get("/employees?page={page}&pageSize={pageSize}", 1, 2)) // http status 200

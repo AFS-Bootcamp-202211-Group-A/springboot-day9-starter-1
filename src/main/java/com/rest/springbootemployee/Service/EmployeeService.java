@@ -3,9 +3,13 @@ package com.rest.springbootemployee.Service;
 import com.rest.springbootemployee.Models.Employee;
 import com.rest.springbootemployee.Repository.EmployeeMongoRepository;
 import com.rest.springbootemployee.Repository.EmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {// SUT
@@ -52,7 +56,8 @@ public class EmployeeService {// SUT
     }
 
     public List<Employee> findByPage(int page, int pageSize) {
-        return employeeRepository.findByPage(page, pageSize);
+        PageRequest pageable = PageRequest.of(page-1, pageSize);
+        return employeeMongoRepository.findAll(pageable).toList();
     }
 
     public void delete(String id) {
