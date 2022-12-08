@@ -3,7 +3,6 @@ package com.rest.springbootemployee;
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Models.Employee;
 import com.rest.springbootemployee.Repository.CompanyMongoRepository;
-import com.rest.springbootemployee.Repository.CompanyRepository;
 import com.rest.springbootemployee.Service.CompanyService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,8 +24,6 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class CompanyServiceTest {
-    @Mock
-    CompanyRepository companyRepository;
 
     @Mock
     CompanyMongoRepository companyMongoRepository;

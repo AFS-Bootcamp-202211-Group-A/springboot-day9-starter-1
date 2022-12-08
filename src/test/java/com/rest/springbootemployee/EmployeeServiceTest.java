@@ -117,6 +117,8 @@ public class EmployeeServiceTest {
         Employee employee1 = new Employee("Susan", 22, "Female", 7000);
         Employee employee2 = new Employee("Lisa", 20, "Female", 7000);
 
+        employees.add(employee1);
+        employees.add(employee2);
 
         int page = 1;
         int pageSize = 2;

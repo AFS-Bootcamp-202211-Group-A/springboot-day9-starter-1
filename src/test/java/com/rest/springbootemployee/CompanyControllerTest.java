@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.springbootemployee.Models.Company;
 import com.rest.springbootemployee.Models.Employee;
 import com.rest.springbootemployee.Repository.CompanyMongoRepository;
-import com.rest.springbootemployee.Repository.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +27,12 @@ public class CompanyControllerTest {
     @Autowired
     MockMvc client;
 
-    @Autowired
-    CompanyRepository companyRepository;
 
     @Autowired
     CompanyMongoRepository companyMongoRepository;
 
     @BeforeEach
     public void clearDB() {
-        companyRepository.clearAll();
         companyMongoRepository.deleteAll();
     }
 
