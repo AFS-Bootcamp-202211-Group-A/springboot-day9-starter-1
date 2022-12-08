@@ -41,10 +41,11 @@ public class CompanyService {
     }
 
     public Company update(String companyId, Company toUpdateCompany) {
-        Company existingCompany = companyRepository.findById(companyId);
+        Company existingCompany = this.findById(companyId);
         if (toUpdateCompany.getName() != null) {
             existingCompany.setName(toUpdateCompany.getName());
         }
+        companyMongoRepository.save(existingCompany);
         return existingCompany;
     }
 
