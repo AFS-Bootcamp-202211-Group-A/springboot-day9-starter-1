@@ -1,6 +1,6 @@
 #server:
 #  port: 8888
 spring:
-  data:
     mongodb:
-      uri: mongodb://localhost:27017/employee
+      embedded:
+        version: 6.0.3
