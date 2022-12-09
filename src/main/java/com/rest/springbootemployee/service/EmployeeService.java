@@ -1,8 +1,10 @@
 package com.rest.springbootemployee.service;
 
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.exception.InvalidIdException;
 import com.rest.springbootemployee.exception.NoEmployeeFoundException;
 import com.rest.springbootemployee.repository.EmployeeMongoRepository;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +42,14 @@ public class EmployeeService {// SUT
         employeeMongoRepository.save(existingEmployee);
         return existingEmployee;
     }
+    private void validateId(String id) {
+         if (!ObjectId.isValid(id)) {
+             throw new InvalidIdException();
+         }
+    }
 
     public Employee findById(String id) {
+        validateId(id);
         return employeeMongoRepository.findById(id)
                 .orElseThrow(NoEmployeeFoundException::new);
     }
@@ -57,6 +65,7 @@ public class EmployeeService {// SUT
     }
 
     public void delete(String id) {
+        validateId(id);
         employeeMongoRepository.deleteById(id);
     }
 
