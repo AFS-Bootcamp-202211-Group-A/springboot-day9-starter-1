@@ -1,0 +1,6 @@
+#server:
+#  port: 8888
+#spring:
+#  mongodb:
+#    embedded:
+#      version: 5.0.1

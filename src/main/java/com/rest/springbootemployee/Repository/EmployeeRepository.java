@@ -1,5 +1,7 @@
-package com.rest.springbootemployee;
+package com.rest.springbootemployee.Repository;
 
+import com.rest.springbootemployee.Models.Employee;
+import com.rest.springbootemployee.Exceptions.NoEmployeeFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -12,16 +14,16 @@ public class EmployeeRepository {
 
     public EmployeeRepository() {
         employees = new ArrayList<>();
-        employees.add(new Employee(1, "Lily", 20, "Female", 80000));
-        employees.add(new Employee(2, "Desiree", 20, "Female", 80000));
-        employees.add(new Employee(3, "Rafael", 20, "Male", 80000));
+        employees.add(new Employee("Lily", 20, "Female", 80000));
+        employees.add(new Employee("Desiree", 20, "Female", 80000));
+        employees.add(new Employee("Rafael", 20, "Male", 80000));
     }
 
     public List<Employee> findAll() {
         return employees;
     }
 
-    public Employee findById(Integer id) {
+    public Employee findById(String id) {
         return employees.stream()
                 .filter(employee -> employee.getId().equals(id))
                 .findFirst()
@@ -35,23 +37,23 @@ public class EmployeeRepository {
     }
 
     public Employee create(Employee employee) {
-        Integer nextId = generateNextId();
+        String nextId = generateNextId();
         employee.setId(nextId);
         employees.add(employee);
         return employee;
     }
 
-    private Integer generateNextId() {
+    private String generateNextId() {
         int maxId = employees.stream()
-                .mapToInt(employee -> employee.getId())
+                .mapToInt(employee -> Integer.parseInt(employee.getId()))
                 .max()
-                .orElse(1);
-        return maxId + 1;
+                .orElse(1) + 1;
+        return String.valueOf(maxId);
     }
 
 //    requirement: update age and salary
 
-    public void delete(Integer id) {
+    public void delete(String id) {
         Employee existingEmployee = findById(id);
         employees.remove(existingEmployee);
     }
